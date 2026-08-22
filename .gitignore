@@ -1,0 +1,20 @@
+# Entorno de Python del backend (cada persona crea el suyo con pip install)
+backend/.venv/
+
+# Modelos y resultados generados en cada análisis, no son parte del código
+backend/exports/
+backend/runs/
+
+# Basura de una descompresión antigua
+backend/__MACOSX/
+
+# Caché de Python
+__pycache__/
+*.pyc
+
+# Basura de macOS
+.DS_Store
+
+# Plantilla de la memoria (no es código de la herramienta) y su archivo temporal de Word
+plantilla_tfg_word.docx
+~$*.docx
