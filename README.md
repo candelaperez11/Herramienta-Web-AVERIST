@@ -6,21 +6,27 @@ He creado esta herramienta web como parte de mi Trabajo de Fin de Grado con el o
 En esta herramiento web el usuario construye el autómata como un grafo desde el navegador, donde los nodos son localizaciones, con su invariante y su dinámica y las aristas son transiciones, con su guarda. El backend valida el modelo, lo traduce a la representación interna que AVERIST necesita y ejecuta el análisis, devolviendo un mensaje explicativo a modo de veredicto de estabilidad. 
 
 ## Requisitos previos
-El usuario necesita tener instaladas las siguientes herramientas para poder correr la herramienta web:
 
-- [Node.js](https://nodejs.org/): para ejecutar el frontend
-- Python 3.11+: Para el entorno del backend
-- [Miniforge/conda](https://github.com/conda-forge/miniforge): para el entorno con SageMath, PPL y z3, que es lo que ejecuta AVERIST por debajo.
-- Linux, macOS o WSL2 en Windows: SageMath no funciona bien en Windows nativo.
+- **Linux, macOS o WSL2 en Windows.** SageMath no tiene buen soporte nativo en Windows, y el backend ejecuta comandos de terminal (`bash`, `conda`) directamente, así que **todo el proyecto** (frontend, backend y AVERIST) debe instalarse y ejecutarse dentro de este entorno — no solo la parte de AVERIST.
+- [Node.js](https://nodejs.org/) 18+ (para el frontend)
+- Python 3.11+ (para el entorno del backend)
+- [Miniforge/conda](https://github.com/conda-forge/miniforge) (para el entorno con SageMath)
+- `git`, para clonar el repositorio (en sistemas Linux muy mínimos puede no venir instalado)
+
+**Importante:** clona y trabaja el proyecto dentro de tu carpeta de usuario de Linux (`~/`), no dentro de una carpeta del disco de Windows montado (`/mnt/c/...`) — en WSL2, esta segunda opción es mucho más lenta para operaciones con muchos archivos pequeños (como crear un entorno virtual de P proceso se quedacolgado sin estarlo.
 
 ## Instalación
 
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/candelaperez11/Herramienta-Web-AVERIST.git
+cd ~
+git clone
+https://github.com/c-AVERIST.git
 cd Herramienta-Web-AVERIST
 ```
+
+(Si `git clone` da " primero con `sudoapt-get update && sudo apt-get install -y git`.)
 
 ### 2. Frontend
 
@@ -29,22 +35,26 @@ cd frontend
 npm install
 ```
 
-### 3. Backend (entorno Python normal)
+### 3. Backend (ento
 
 ```bash
 cd ../backend
+sudo apt-get installon3-pip
 python3 -m venv .venv
-source .venv/bin/activate
+source .venv/bin/act
 pip install flask flask-cors networkx
 ```
 
-### 4. Entorno de AVERIST (conda)
+### 4. Entorno de AV
 
 ```bash
-conda create -n averist -c conda-forge sage=10.7 python=3.11 z3-solver
-```
-
-Este paso puede tardar bastante ya que descarga varios GB porque instala SageMath completo. PPL (Parma Polyhedra Library) viene incluido con esta instalación de Sage, no requiere un paso aparte.
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$
+bash Miniforge3-$(uname)-$(uname -m).sh                                ```
+                                                                       Responde a sus pregude instalación →Enter, inicializar conda → `yes`). Cierra y vuelve a abrir la terminal al terminar.
+                                                                       ```bash
+conda install -n base -c conda-forge mamba -y                          mamba create -n averpython=3.11 z3-solver
+```                                                                   
+Usa `mamba` en vez de `conda create` directamente para este paso — con `conda` a secas, rese puede quedarsecolgado mucho tiempo sin dar ningún error; `mamba` es más rápido y fiable. Este paso dempleto) y puedetardar bastante incluso con `mamba`.
 
 ## Ejecución
 
@@ -58,17 +68,15 @@ source .venv/bin/activate
 python app.py
 ```
 
-Esto levanta el servidor Flask en `http://127.0.0.1:5000`, el backend se encarga de activar el entorno conda, por lo que no necesitas activar nada a mano.
+Levanta el servidor Flask en `http://127.0.0.1:5000`. Internamente,
+cada análisis lanza ro del entorno conda`averist` — no hace falta activar ese entorno a mano.
 
 **Terminal 2 — frontend:**
 
-```bash
-cd frontend
-npm run dev
-```
-
-Abre la URL que indique Vite (por defecto `http://localhost:5173`).
-
+```bash                                                                cd frontend
+npm run dev                                                            ```
+                                                                       Abre la URL que indi/localhost:5173`).
+                                                                       > **Nota:** todos loida la ejecucióncompleta de un análisis con AVERIST, han sido verificados de principio a fin. Si al ejecutaT terminó con unerror", revisa el campo `log` de la respuesta del backend (pestaña Network del navegadoema puntual delentorno conda recién creado, no del propio proyecto.
 ## Uso
 
 1. Pulsa **+ Nodo** para crear una localización y dale un nombre.
