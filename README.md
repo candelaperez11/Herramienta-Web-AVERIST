@@ -1,19 +1,20 @@
-# Herramienta Web AVERIST
-Os presento un editor visual de autómatas híbridos con verificación de estabilidad mediante el programa AVERIST. 
+# Herramienta Web para el programa AVERIST
+Os presento el proyecto en el que llevo trabajando unos meses, un editor visual de autómatas híbridos con verificación de estabilidad mediante el programa AVERIST. 
 
-He creado esta herramienta web como parte de mi Trabajo de Fin de Grado con el objetivo de diseñar autómatas híbridos de forma visual e interactiva y verificar su estabilidad con el programa AVERIST, sin necesidad de escribir a mano el fichero de entrada `.averist` ni usar la línea de comandos.
+He desarrollado esta herramienta web como parte de mi Trabajo de Fin de Grado con el objetivo de facilitar el uso de AVERIST a usuarios que no estén familiarizados con este tipo de herramientas. La aplicación permite diseñar autómatas híbridos de forma visual e interactiva y comprobar su estabilidad mediante AVERIST, sin tener que escribir manualmente los ficheros de entrada .averist ni trabajar directamente desde la línea de comandos.
 
-En esta herramiento web el usuario construye el autómata como un grafo desde el navegador, donde los nodos son localizaciones, con su invariante y su dinámica y las aristas son transiciones, con su guarda. El backend valida el modelo, lo traduce a la representación interna que AVERIST necesita y ejecuta el análisis, devolviendo un mensaje explicativo a modo de veredicto de estabilidad. 
+En esta herramienta web el usuario construye el autómata como un grafo desde el navegador, donde los nodos son localizaciones, con su invariante y su dinámica y las aristas son transiciones, con su guarda. El backend valida el modelo, lo traduce a la representación interna que AVERIST necesita y ejecuta el análisis, devolviendo un mensaje explicativo a modo de veredicto de estabilidad. Antes del análisis aparece una ventana donde el usuario puede seleccionar el tipo de autómata y el número máximo de iteraciones de CEGAR. 
 
 ## Requisitos previos
+Esta herramienta necesita de algunos programas que deben estar instalados en el ordenador donde se vaya a utilizar. 
 
-- **Linux, macOS o WSL2 en Windows.** SageMath no tiene buen soporte nativo en Windows, y el backend ejecuta comandos de terminal (`bash`, `conda`) directamente, así que **todo el proyecto** (frontend, backend y AVERIST) debe instalarse y ejecutarse dentro de este entorno — no solo la parte de AVERIST.
-- [Node.js](https://nodejs.org/) 18+ (para el frontend)
-- Python 3.11+ (para el entorno del backend)
-- [Miniforge/conda](https://github.com/conda-forge/miniforge) (para el entorno con SageMath)
-- `git`, para clonar el repositorio (en sistemas Linux muy mínimos puede no venir instalado)
+- **Linux, macOS o WSL2 en Windows.** SageMath no tiene buen soporte nativo en Windows, y el backend ejecuta comandos de terminal (`bash`, `conda`) directamente, así que **todo el proyecto** (frontend, backend y AVERIST) debe instalarse y ejecutarse dentro de este entorno.
+- [Node.js](https://nodejs.org/) 18+: para el frontend 
+- Python 3.11+ : para el entorno del backend
+- [Miniforge/conda](https://github.com/conda-forge/miniforge): para el entorno con SageMath
+- `git`, para clonar el repositorio
 
-**Importante:** clona y trabaja el proyecto dentro de tu carpeta de usuario de Linux (`~/`), no dentro de una carpeta del disco de Windows montado (`/mnt/c/...`) — en WSL2, esta segunda opción es mucho más lenta para operaciones con muchos archivos pequeños (como crear un entorno virtual de P proceso se quedacolgado sin estarlo.
+**Importante:** Es recomendable clonar y trabajar el proyecto dentro de tu carpeta de usuario de Linux, no dentro de una carpeta del disco de Windows montado (`/mnt/c/...`), ya que la segunda opción es más lenta para operaciones con muchos archivos pequeños. 
 
 ## Instalación
 
