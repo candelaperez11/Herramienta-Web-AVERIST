@@ -36,6 +36,29 @@ def _graph_to_dict(graph, variables):
         ],
     }
 
+#Traduce el mensaje técnico de AVERIST a una explicación en lenguaje sencillo para usuarios sin experiencia
+def _explain_message(message):
+    if message.startswith("Stable"):
+        return "El sistema es estable: pequeñas perturbaciones no lo alejan de su comportamiento esperado, y con el tiempo tiende a mantenerse controlado."
+
+    if message.startswith("Unstable (blow-up)"):
+        return "El sistema es inestable: se ha detectado que alguna variable puede crecer sin límite (no está acotada), lo que indica un comportamiento divergente."
+
+    if message.startswith("Unstable (concrete counterexample)"):
+        return "El sistema es inestable: se ha encontrado una ejecución real y concreta del autómata que demuestra que no se mantiene estable."
+
+    if message.startswith("Unstable (hybridization)"):
+        return "El sistema es inestable: la abstracción del autómata ha detectado un comportamiento que viola la estabilidad."
+
+    if message.startswith("Unstable"):
+        return "El sistema es inestable."
+
+    return (
+        "AVERIST no ha podido determinar si el sistema es estable o no dentro del "
+        "número máximo de iteraciones del algoritmo CEGAR. Prueba a aumentar el "
+        "valor de 'max_CEGAR_iteration' para permitir un análisis más preciso."
+    )
+
 #Funcion principal (IMPORTANTE)
 def run_averist(graph, variables, ha_type, max_cegar_iteration, timeout=DEFAULT_TIMEOUT_SECONDS):
     RUNS_DIR.mkdir(exist_ok=True) 
@@ -105,10 +128,13 @@ def run_averist(graph, variables, ha_type, max_cegar_iteration, timeout=DEFAULT_
     else:
         answer = None  #no concluyente dentro del límite de iteraciones CEGAR (hay que refinar)
 
+    #Añadimos una explicación sencilla debajo del mensaje técnico, para usuarios sin experiencia
+    message_with_explanation = message + "\n\n" + _explain_message(message)
+
     #Devuelve la información que app.py necesita para construir la respuesta del usuario
     return {
         "run_id": run_id,
-        "message": message,
+        "message": message_with_explanation,
         "answer": answer,
         "counterexample": counterexample,
         "log": log,
