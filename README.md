@@ -1,32 +1,17 @@
-# ha-v1 — Editor visual de autómatas híbridos para AVERIST
+# Herramienta-Web-AVERIST-TFG-
+Editor visual de autómatas híbridos con verificación de estabilidad mediante el programa AVERIST. 
 
-Herramienta web para diseñar autómatas híbridos de forma visual e interactiva y verificar su estabilidad global asintótica (GAS) sin necesidad de escribir a mano el fichero de entrada `.averist` ni usar la línea de comandos.
+He creado esta herramienta web para diseñar autómatas híbridos de forma visual e interactiva y verificar su estabilidad con el programa AVERIST, sin necesidad de escribir a mano el fichero de entrada `.averist` ni usar la línea de comandos.
 
-El usuario construye el autómata como un grafo (nodos = localizaciones, con su invariante y su dinámica; aristas = transiciones, con su guarda) desde el navegador. El backend valida el modelo, lo traduce a la representación interna que AVERIST necesita y ejecuta el análisis, devolviendo el veredicto de estabilidad en pantalla.
-
-## Arquitectura
-
-```
-Navegador (React + React Flow, :5173)
-        │  POST /analyze (JSON)
-        ▼
-Backend Flask (:5000)
-        │  valida y traduce el grafo
-        ▼
-AVERIST (entorno conda: SageMath + PPL + z3, algoritmo CEGAR)
-        │  veredicto de estabilidad
-        ▼
-Navegador (pantalla de resultado)
-```
-
-El proyecto incluye su propia copia de AVERIST en `backend/averist_src/`, con correcciones aplicadas sobre la versión original. **No es necesario instalar AVERIST por separado.**
+El usuario construye el autómata como un grafo desde el navegador, donde los nodos son localizaciones, con su invariante y su dinámica y las aristas son transiciones, con su guarda. El backend valida el modelo, lo traduce a la representación interna que AVERIST necesita y ejecuta el análisis, devolviendo un mensaje explicativo a modo de veredicto de estabilidad. 
 
 ## Requisitos previos
+El usuario necesita tener instaladas las siguientes herramientas para poder correr la herramienta web:
 
-- [Node.js](https://nodejs.org/) (para el frontend)
-- Python 3.11+ (para el entorno del backend)
-- [Miniforge/conda](https://github.com/conda-forge/miniforge) (para el entorno con SageMath)
-- **Linux, macOS o WSL2 en Windows.** SageMath no tiene buen soporte nativo en Windows, así que en Windows es necesario usar WSL2.
+- [Node.js](https://nodejs.org/): para ejecutar el frontend
+- Python 3.11+: Para el entorno del backend
+- [Miniforge/conda](https://github.com/conda-forge/miniforge): para el entorno con SageMath, PPL y z3, que es lo que ejecuta AVERIST por debajo.
+- Linux, macOS o WSL2 en Windows: SageMath no funciona bien en Windows nativo.
 
 ## Instalación
 
@@ -59,7 +44,7 @@ pip install flask flask-cors networkx
 conda create -n averist -c conda-forge sage=10.7 python=3.11 z3-solver
 ```
 
-Este paso es el más pesado (descarga varios GB y puede tardar bastante), ya que instala SageMath completo. PPL (Parma Polyhedra Library) viene incluido con esta instalación de Sage, no requiere un paso aparte.
+Este paso puede tardar bastante ya que descarga varios GB porque instala SageMath completo. PPL (Parma Polyhedra Library) viene incluido con esta instalación de Sage, no requiere un paso aparte.
 
 ## Ejecución
 
@@ -73,7 +58,7 @@ source .venv/bin/activate
 python app.py
 ```
 
-Levanta el servidor Flask en `http://127.0.0.1:5000`. Internamente, cada análisis lanza un subproceso con `sage` dentro del entorno conda `averist` — no hace falta activar ese entorno a mano, el backend lo hace por ti al invocar AVERIST.
+Esto levanta el servidor Flask en `http://127.0.0.1:5000`, el backend se encarga de activar el entorno conda, por lo que no necesitas activar nada a mano.
 
 **Terminal 2 — frontend:**
 
@@ -92,24 +77,11 @@ Abre la URL que indique Vite (por defecto `http://localhost:5173`).
 4. Pulsa **Analizar**, elige el tipo de autómata (`polyhedral` o `linear`) y el número máximo de iteraciones del algoritmo CEGAR, y ejecuta el análisis.
 5. El resultado (estable / inestable, mensaje explicativo y errores de validación si los hubiera) se muestra en pantalla.
 
-También puedes usar **Exportar JSON** para descargar el modelo construido sin ejecutar el análisis.
-
-## Estructura del repositorio
-
-```
-frontend/           Editor visual (React + React Flow)
-backend/
-  app.py            Endpoints /analyze y /health
-  graph_utils.py     JSON → grafo interno, validación estructural
-  averist_input_builder.py   Detección de variables, validación de dinámicas
-  read_input.py      Grafo → representación interna de AVERIST (sin pasar por su parser de texto)
-  sage_driver.py      Punto de entrada que se ejecuta con el intérprete `sage`
-  averist_runner.py   Orquesta la ejecución de AVERIST y recoge el veredicto
-  averist_src/         Copia vendorizada de AVERIST, con correcciones aplicadas
-```
+También puedes usar **Exportar JSON** para descargar el modelo construido en formato JSON sin ejecutar el análisis.
 
 ## Créditos
 
 Construido sobre [AVERIST](https://software.imdea.org/projects/averist/), desarrollado por Miriam García Soto y Pavithra Prabhakar.
 
 > P. Prabhakar y M. García Soto, "AVERIST: An Algorithmic Verifier for Stability", Electronic Notes in Theoretical Computer Science, vol. 317, pp. 133–139, 2015.
+
