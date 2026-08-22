@@ -23,37 +23,67 @@ El proyecto incluye su propia copia de AVERIST en `backend/averist_src/`, con co
 
 ## Requisitos previos
 
-- [Node.js](https://nodejs.org/) (para el frontend)
+- **Linux, macOS o WSL2 en Windows.** SageMath no tiene buen soporte nativo en Windows, y el backend ejecuta comandos de terminal (`bash`, `conda`) directamente, así que **todo el proyecto** (frontend, backend y AVERIST) debe instalarse y ejecutarse dentro de este entorno — no solo la parte de AVERIST. Si usas Windows, instala primero WSL2 (paso 0 más abajo) y haz el resto desde ahí.
+- [Node.js](https://nodejs.org/) 18+ (para el frontend)
 - Python 3.11+ (para el entorno del backend)
 - [Miniforge/conda](https://github.com/conda-forge/miniforge) (para el entorno con SageMath)
-- **Linux, macOS o WSL2 en Windows.** SageMath no tiene buen soporte nativo en Windows, así que en Windows es necesario usar WSL2.
 
 ## Instalación
 
-### 1. Clonar el repositorio
+### 0. Instalar WSL2 (solo si usas Windows y no lo tienes ya)
+
+Abre **PowerShell como administrador** y ejecuta:
+
+```powershell
+wsl --install
+```
+
+Reinicia el ordenador cuando te lo pida. Esto instala Ubuntu por defecto. Abre **"Ubuntu"** desde el menú de inicio y haz **todos los pasos siguientes dentro de esa terminal**, no en PowerShell/CMD.
+
+### 1. Instalar Node.js
+
+Dentro de la terminal de Ubuntu/WSL2 (o de tu Linux/Mac):
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+(El `nodejs` que trae Ubuntu por defecto vía `apt` suele ser una versión demasiado antigua para este proyecto — mejor usar el comando de arriba.) Comprueba la instalación con `node -v`.
+
+### 2. Instalar Miniforge (conda)
+
+```bash
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh
+```
+
+Acepta la licencia y deja la ruta de instalación por defecto. Cierra y vuelve a abrir la terminal al terminar.
+
+### 3. Clonar el repositorio
 
 ```bash
 git clone <url-del-repositorio>
 cd ha-v1
 ```
 
-### 2. Frontend
+### 4. Frontend
 
 ```bash
 cd frontend
 npm install
 ```
 
-### 3. Backend (entorno Python normal)
+### 5. Backend (entorno Python normal)
 
 ```bash
-cd backend
-python -m venv .venv
+cd ../backend
+python3 -m venv .venv
 source .venv/bin/activate
 pip install flask flask-cors networkx
 ```
 
-### 4. Entorno de AVERIST (conda)
+### 6. Entorno de AVERIST (conda)
 
 ```bash
 conda create -n averist -c conda-forge sage=10.7 python=3.11 z3-solver
