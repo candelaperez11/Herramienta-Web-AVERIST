@@ -23,39 +23,56 @@ Esta herramienta necesita de algunos programas que deben estar instalados en el 
 ```bash
 cd ~
 git clone
-https://github.com/c-AVERIST.git
+https://github.com/candelaperez11/Herramienta-Web-AVERIST.git
 cd Herramienta-Web-AVERIST
 ```
+Si aparece un error de "Command not found" ejecutamos  `sudo apt-get update && sudo apt-get install -y git`, ya que pueden no estar instalados en nuestro equipo.
 
-(Si `git clone` da " primero con `sudoapt-get update && sudo apt-get install -y git`.)
+### 2. Node.js (con nvm)
 
-### 2. Frontend
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+nvm install 20
+```
+
+Comprueba con `which npm` que la ruta empieza por tu carpeta de usuario de Linux (algo como `/home/tu_usuario/.nvm/...`), no por `/mnt/c/...`.
+
+### 3. Frontend
 
 ```bash
 cd frontend
 npm install
 ```
 
-### 3. Backend (ento
+### 4. Backend (entorno Python)
 
 ```bash
 cd ../backend
-sudo apt-get installon3-pip
+sudo apt-get install -y python3 python3-venv python3-pip
 python3 -m venv .venv
-source .venv/bin/act
+source .venv/bin/activate
 pip install flask flask-cors networkx
 ```
 
-### 4. Entorno de AV
+### 5. Entorno de AVERIST
 
 ```bash
-curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$
-bash Miniforge3-$(uname)-$(uname -m).sh                                ```
-                                                                       Responde a sus pregude instalación →Enter, inicializar conda → `yes`). Cierra y vuelve a abrir la terminal al terminar.
-                                                                       ```bash
-conda install -n base -c conda-forge mamba -y                          mamba create -n averpython=3.11 z3-solver
-```                                                                   
-Usa `mamba` en vez de `conda create` directamente para este paso — con `conda` a secas, rese puede quedarsecolgado mucho tiempo sin dar ningún error; `mamba` es más rápido y fiable. Este paso dempleto) y puedetardar bastante incluso con `mamba`.
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh
+```
+
+Te hará una serie de preguntas que debes responder con: 
+- Licencia --> `yes`
+- Ruta de instalación --> ENTER
+- Inicializar conda --> `yes`
+Una vez hayamos acabado cerramos y volvemos a abrir la terminal.
+
+```bash
+conda install -n base -c conda-forge mamba -y
+mamba create -n averist -c conda-forge sage=10.7 python=3.11 z3-solver
+```
+Este proceso puede tardar entre 20-40 minutos depende del ordenador.
 
 ## Ejecución
 
@@ -69,15 +86,28 @@ source .venv/bin/activate
 python app.py
 ```
 
-Levanta el servidor Flask en `http://127.0.0.1:5000`. Internamente,
-cada análisis lanza ro del entorno conda`averist` — no hace falta activar ese entorno a mano.
+Levanta el servidor Flask en `http://127.0.0.1:5000`. Internamente, cada análisis lanza un subproceso con `sage` dentro del entorno conda `averist` — no hace falta activar ese entorno a mano.
 
 **Terminal 2 — frontend:**
 
-```bash                                                                cd frontend
-npm run dev                                                            ```
-                                                                       Abre la URL que indi/localhost:5173`).
-                                                                       > **Nota:** todos loida la ejecucióncompleta de un análisis con AVERIST, han sido verificados de principio a fin. Si al ejecutaT terminó con unerror", revisa el campo `log` de la respuesta del backend (pestaña Network del navegadoema puntual delentorno conda recién creado, no del propio proyecto.
+```bash
+cd frontend
+npm run dev
+```
+Abre la URL que indique Vite (por defecto `http://localhost:5173`).
+
+## Solución de problemas
+
+Los siguientes problemas son problemas reales que me he encontrado probando la herramienta. 
+
+**"Cannot find module @rollup/rollup-linux-x64-gnu"** (u otro paquete similar) al ejecutar `npm run dev`: pasa si `node_modules` se instaló con un Node.js de otro sistema operativo. Podemos arreglarlo con:
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**"AVERIST terminó con un error"** al analizar: revisa el campo `log` de la respuesta del backend (pestaña "Network" del navegador, en la petición `analyze`) para ver el detalle, puede deberse a un problema puntual del entorno conda, no del propio proyecto.
+
 ## Uso
 
 1. Pulsa **+ Nodo** para crear una localización y dale un nombre.
