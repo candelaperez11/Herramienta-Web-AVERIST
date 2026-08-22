@@ -1,9 +1,9 @@
 # Herramienta Web AVERIST (TFG)
-Editor visual de autómatas híbridos con verificación de estabilidad mediante el programa AVERIST. 
+Os presento un editor visual de autómatas híbridos con verificación de estabilidad mediante el programa AVERIST. 
 
-He creado esta herramienta web para diseñar autómatas híbridos de forma visual e interactiva y verificar su estabilidad con el programa AVERIST, sin necesidad de escribir a mano el fichero de entrada `.averist` ni usar la línea de comandos.
+He creado esta herramienta web como parte de mi Trabajo de Fin de Grado con el objetivo de diseñar autómatas híbridos de forma visual e interactiva y verificar su estabilidad con el programa AVERIST, sin necesidad de escribir a mano el fichero de entrada `.averist` ni usar la línea de comandos.
 
-El usuario construye el autómata como un grafo desde el navegador, donde los nodos son localizaciones, con su invariante y su dinámica y las aristas son transiciones, con su guarda. El backend valida el modelo, lo traduce a la representación interna que AVERIST necesita y ejecuta el análisis, devolviendo un mensaje explicativo a modo de veredicto de estabilidad. 
+En esta herramienta web el usuario construye el autómata como un grafo desde el navegador, donde los nodos son localizaciones, con su invariante y su dinámica y las aristas son transiciones, con su guarda. El backend valida el modelo, lo traduce a la representación interna que AVERIST necesita y ejecuta el análisis, devolviendo un mensaje explicativo a modo de veredicto de estabilidad. 
 
 ## Requisitos previos
 El usuario necesita tener instaladas las siguientes herramientas para poder correr la herramienta web:
