@@ -14,59 +14,31 @@ El usuario necesita tener instaladas las siguientes herramientas para poder corr
 - Linux, macOS o WSL2 en Windows: SageMath no funciona bien en Windows nativo.
 
 ## Instalación
-### 0. Instalar WSL2 
 
-Abre **PowerShell como administrador** y ejecuta:
-
-```powershell
-wsl --install
-```
-
-Reinicia el ordenador cuando te lo pida. Esto instala Ubuntu por defecto. Abre **"Ubuntu"** desde el menú de inicio y haz **todos los pasos siguientes dentro de esa terminal**, no en PowerShell/CMD.
-
-### 1. Instalar Node.js
-
-Dentro de la terminal de Ubuntu/WSL2 (o de tu Linux/Mac):
+### 1. Clonar el repositorio
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt-get install -y nodejs
+git clone https://github.com/candelaperez11/Herramienta-Web-AVERIST.git
+cd Herramienta-Web-AVERIST
 ```
 
-(El `nodejs` que trae Ubuntu por defecto vía `apt` suele ser una versión demasiado antigua para este proyecto — mejor usar el comando de arriba.) Comprueba la instalación con `node -v`.
-
-### 2. Instalar Miniforge (conda)
-
-```bash
-curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
-bash Miniforge3-$(uname)-$(uname -m).sh
-```
-
-Acepta la licencia y deja la ruta de instalación por defecto. Cierra y vuelve a abrir la terminal al terminar.
-### 4. Clonar el repositorio
-
-```bash
-git clone <url-del-repositorio>
-cd ha-v1
-```
-
-### 5. Frontend
+### 2. Frontend
 
 ```bash
 cd frontend
 npm install
 ```
 
-### 6. Backend (entorno Python normal)
+### 3. Backend (entorno Python normal)
 
 ```bash
-cd backend
-python -m venv .venv
+cd ../backend
+python3 -m venv .venv
 source .venv/bin/activate
 pip install flask flask-cors networkx
 ```
 
-### 7. Entorno de AVERIST (conda)
+### 4. Entorno de AVERIST (conda)
 
 ```bash
 conda create -n averist -c conda-forge sage=10.7 python=3.11 z3-solver
