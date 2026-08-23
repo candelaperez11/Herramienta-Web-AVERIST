@@ -292,7 +292,7 @@ export default function App() {
             <button onClick={exportAutomaton}>Exportar JSON</button>
             <button onClick={() => setShowAnalyzeModal(true)}>Analizar</button>
             <span style={{ marginLeft: 8, color: "#666", fontSize: 12 }}>
-              Tip: arrastra desde cualquier lado de un nodo a otro para crear
+              Tip: arrastra desde arriba o abajo de un nodo a otro para crear
               una arista, o arrastra el extremo de una arista existente para
               reconectarla.
             </span>

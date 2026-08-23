@@ -6,14 +6,14 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 from graph_utils import json_to_digraph, GraphValidationError
-from averist_input_builder import extract_variables, validate_dynamics, build_dat_text
+from averist_input_builder import extract_variables, validate_dynamics
 from averist_runner import run_averist, AveristRunError
 
 
 app = Flask(__name__)
 CORS(app)
 
-#Carpeta donde se van a guardar los JSON y .dat recibidos y generados desde frontend
+#Carpeta donde se van a guardar los JSON recibidos desde frontend
 EXPORTS_DIR = Path(__file__).resolve().parent / "exports"
 EXPORTS_DIR.mkdir(exist_ok=True)
 
@@ -96,14 +96,10 @@ def analyze():
             "errors": dyn_errors
         }), 400
 
-    #Se guarda como referencia, pero no es lo qeu AVERIST va a ejecutar
-    dat_text = build_dat_text(graph, variables)
-
     run_id = uuid4().hex[:8]
     (EXPORTS_DIR / f"model_{run_id}.json").write_text(
         json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8" #guardar copia en exports
     )
-    (EXPORTS_DIR / f"model_{run_id}.dat").write_text(dat_text, encoding="utf-8")
 
     #Ejecutar AVERIST directamente sobre el grafo (run_averist se declara en averist_runner.py)
     try:

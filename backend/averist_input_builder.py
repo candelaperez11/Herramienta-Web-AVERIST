@@ -50,28 +50,3 @@ def validate_dynamics(graph, variables, ha_type):
                 )
 
     return errors
-
-#Generamos el texto plano con el formato deseado .dat
-def build_dat_text(graph, variables):
-    lines = []
-    lines.append(f"var    : {','.join(variables)};")
-    lines.append("")
-    lines.append(f"location: {','.join(graph.nodes())};")
-    lines.append("")
-
-    for node, data in graph.nodes(data=True):
-        lines.append(f"loc: {node};")
-        lines.append(f"\tinv: {data['inv']};")
-        lines.append("")
-        lines.append(f"\tdyn: {data['dyn']};")
-
-        out_edges = list(graph.out_edges(node, data=True))
-        if out_edges:
-            lines.append("")
-            lines.append("\tguards:")
-            for _, target, edata in out_edges:
-                lines.append(f"\t\twhen {edata['guard']} goto {target};")
-
-        lines.append("")
-
-    return "\n".join(lines)
