@@ -35,6 +35,33 @@ def extract_variables(graph):
 
     return variables
 
+_UNSUPPORTED_SYMBOLS = {"≥": ">=", "≤": "<="}
+
+#Comprobamos sintaxis que AVERIST no soporta (OR, símbolos unicode) antes de que falle por dentro
+def validate_syntax(graph):
+    errors = []
+
+    def _check(label, text):
+        for symbol, replacement in _UNSUPPORTED_SYMBOLS.items():
+            if symbol in (text or ""):
+                errors.append(
+                    f"{label}: usa el símbolo '{symbol}', que no está soportado. Usa '{replacement}' en su lugar."
+                )
+        if re.search(r"\bOR\b", text or "", re.IGNORECASE):
+            errors.append(
+                f"{label}: usa 'OR', que no está soportado por AVERIST (solo se admite 'AND'). "
+                "Expresa la condición con nodos o aristas independientes en su lugar."
+            )
+
+    for node, data in graph.nodes(data=True):
+        _check(f"El nodo '{node}' (invariante)", data.get("inv", ""))
+        _check(f"El nodo '{node}' (dinámica)", data.get("dyn", ""))
+
+    for source, target, data in graph.edges(data=True):
+        _check(f"La arista '{source}' -> '{target}' (guard)", data.get("guard", ""))
+
+    return errors
+
 #Comprobamos que dyn de cada nodo solo use derivadas de variables declaradas
 def validate_dynamics(graph, variables, ha_type):
     derivatives = {"d" + v for v in variables}

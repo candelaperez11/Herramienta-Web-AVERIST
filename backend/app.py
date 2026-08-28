@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 from graph_utils import json_to_digraph, GraphValidationError
-from averist_input_builder import extract_variables, validate_dynamics
+from averist_input_builder import extract_variables, validate_dynamics, validate_syntax
 from averist_runner import run_averist, AveristRunError
 
 
@@ -76,6 +76,15 @@ def analyze():
             "ok": False,
             "message": "El grafo tiene errores",
             "errors": e.errors
+        }), 400
+
+    #Comprobamos que no se use sintaxis no soportada (OR, símbolos unicode) antes de seguir
+    syntax_errors = validate_syntax(graph)
+    if syntax_errors:
+        return jsonify({
+            "ok": False,
+            "message": "Hay expresiones con una sintaxis no soportada",
+            "errors": syntax_errors
         }), 400
 
     #Ahora extraemos las variables del autómata, invariantes, guards, flow
