@@ -70,6 +70,7 @@ export default function App() {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [showResultScreen, setShowResultScreen] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [toast, setToast] = useState(null); //Aviso propio en pantalla, en vez del alert() nativo del navegador
 
   //useMemo evita crear el objeto de nuevo en cada render, se calcula solo una vez
   const nodeTypes = useMemo(
@@ -219,7 +220,8 @@ export default function App() {
     a.click();
 
     URL.revokeObjectURL(url);
-    alert("Archivo JSON descargado correctamente ✅");
+    setToast("Archivo JSON descargado correctamente ✅");
+    setTimeout(() => setToast(null), 2500);
   };
 
   //Para crear el objeto final que el backend va a recibir para el analisis AVERIST
@@ -266,6 +268,25 @@ export default function App() {
   //A partir de aquí es diseño de la pantalla, barra superior, ventanas, etc..
   return (
     <div style={{ display: "flex", height: "100vh" }}>
+      {toast && (
+        <div
+          style={{
+            position: "fixed",
+            top: 16,
+            right: 16,
+            zIndex: 1000,
+            background: "white",
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: "10px 14px",
+            fontSize: 13,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+          }}
+        >
+          {toast}
+        </div>
+      )}
+
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <div
           style={{
