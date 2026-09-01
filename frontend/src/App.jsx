@@ -67,6 +67,9 @@ export default function App() {
   const [haType, setHaType] = useState("polyhedral"); //Polyhedral por defecto
   const [maxCegarIteration, setMaxCegarIteration] = useState(10);
 
+  const [showAddNodeModal, setShowAddNodeModal] = useState(false); //Ventana propia en vez del prompt() nativo del navegador
+  const [newNodeName, setNewNodeName] = useState("");
+
   const [analysisResult, setAnalysisResult] = useState(null);
   const [showResultScreen, setShowResultScreen] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -80,9 +83,15 @@ export default function App() {
     [],
   );
 
-  //Funcion que se ejecuta al pulsa + nodo
+  //Funcion que se ejecuta al pulsar + Nodo: abre la ventana propia para pedir el nombre
   const addNode = () => {
-    const name = prompt("Nombre del nodo/estado:", "q");
+    setNewNodeName("");
+    setShowAddNodeModal(true);
+  };
+
+  //Se ejecuta al confirmar el nombre en la ventana de + Nodo
+  const confirmAddNode = () => {
+    const name = newNodeName.trim();
     if (!name) return;
 
     const id = uid("N");
@@ -95,6 +104,7 @@ export default function App() {
         type: "automaton",
       }),
     );
+    setShowAddNodeModal(false);
   };
 
   //Funcion que se ejecuta al conectar dos nodos
@@ -418,6 +428,55 @@ export default function App() {
           </>
         )}
       </aside>
+
+      {showAddNodeModal && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.35)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 2000,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: 24,
+              borderRadius: 12,
+              minWidth: 380,
+              boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
+            }}
+          >
+            <h2 style={{ marginTop: 0 }}>Nuevo nodo</h2>
+
+            <label style={{ display: "block", marginBottom: 18 }}>
+              Nombre del nodo/estado
+              <input
+                autoFocus
+                type="text"
+                value={newNodeName}
+                onChange={(e) => setNewNodeName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && confirmAddNode()}
+                style={{ display: "block", width: "100%", marginTop: 6 }}
+              />
+            </label>
+
+            <div
+              style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}
+            >
+              <button onClick={() => setShowAddNodeModal(false)}>
+                Cancelar
+              </button>
+              <button onClick={confirmAddNode} disabled={!newNodeName.trim()}>
+                Crear nodo
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showAnalyzeModal && (
         <div
