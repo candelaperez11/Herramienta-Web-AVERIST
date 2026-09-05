@@ -1,0 +1,27 @@
+var    : x,y;
+
+location: locA, locB, locC;
+
+loc: locA;
+	inv: x>=0 AND x<=5 AND y>=0;
+
+	dyn: dx==1 AND dy==-1;
+
+	guards:
+		when x==5 goto locB;
+
+loc: locB;
+	inv: x>=0 AND x<=5 AND y<=0;
+
+	dyn: dx==-1 AND dy==-1;
+
+	guards:
+		when x==0 goto locC;
+
+loc: locC;
+	inv: y<=0 AND y>=-5;
+
+	dyn: dx==0 AND dy==1;
+
+	guards:
+		when y==0 goto locA;

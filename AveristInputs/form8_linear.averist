@@ -1,0 +1,8 @@
+var    : x,y;
+
+location: loc1;
+
+loc: loc1;
+	inv: x>=-100 AND x<=100 AND y>=-100 AND y<=100;
+
+	dyn: dx==1*y AND dy==-1*x;

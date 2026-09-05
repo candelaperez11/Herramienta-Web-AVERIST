@@ -1,0 +1,19 @@
+var    : x,y;
+
+location: loc1, loc2;
+
+loc: loc1;
+	inv: x>=0;
+
+	dyn: dx==-2*x AND dy==-1*y;
+
+	guards:
+		when x==0 goto loc2;
+
+loc: loc2;
+	inv: x<=0;
+
+	dyn: dx==-1*x AND dy==-2*y;
+
+	guards:
+		when x==0 goto loc1;

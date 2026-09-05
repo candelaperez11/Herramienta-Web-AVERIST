@@ -1,0 +1,35 @@
+var    : x,y;
+
+location: quad1, quad2, quad3, quad4;
+
+loc: quad1;
+	inv: x>=0 AND y>=0;
+
+	dyn: dx==-1 AND dy>=1 AND dy<=2;
+
+	guards:
+		when x==0 goto quad2;
+
+loc: quad2;
+	inv: x<=0 AND y>=0;
+
+	dyn: dx>=-2 AND dx<=-1 AND dy==-4;
+
+	guards:
+		when y==0 goto quad3;
+
+loc: quad3;
+	inv: x<=0 AND y<=0;
+
+	dyn: dx==1 AND dy<=-1 AND dy>=-2;
+
+	guards:
+		when x==0 goto quad4;
+
+loc: quad4;
+	inv: x>=0 AND y<=0;
+
+	dyn: dx>=1 AND dx<=2 AND dy==4;
+
+	guards:
+		when y==0 goto quad1;
