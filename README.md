@@ -35,6 +35,7 @@ source ~/.bashrc
 nvm install 20
 ```
 
+Si aparece un error de "Command not found" ejecutamos  `sudo apt-get update && sudo apt-get install curl -y´
 Comprueba con `which npm` que la ruta empieza por tu carpeta de usuario de Linux (algo como `/home/tu_usuario/.nvm/...`), no por `/mnt/c/...`.
 
 ### 3. Frontend
