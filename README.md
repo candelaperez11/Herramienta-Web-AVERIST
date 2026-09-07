@@ -83,7 +83,7 @@ Se necesitan dos terminales abiertas a la vez.
 **Terminal 1 — backend:**
 
 ```bash
-cd backend
+cd Herramienta-Web-AVERIST/backend
 source .venv/bin/activate
 python app.py
 ```
@@ -93,7 +93,7 @@ Levanta el servidor Flask en `http://127.0.0.1:5000`. Internamente, cada anális
 **Terminal 2 — frontend:**
 
 ```bash
-cd frontend
+cd Herramienta-Web-AVERIST/frontend
 npm run dev
 ```
 Abre la URL que indique Vite (por defecto `http://localhost:5173`).
