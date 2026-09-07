@@ -69,6 +69,9 @@ Te hará una serie de preguntas que debes responder con:
 Una vez hayamos acabado cerramos y volvemos a abrir la terminal.
 
 ```bash
+cd Herramienta-Web-AVERIST/backend
+source .venv/bin/activate
+conda activate base
 conda install -n base -c conda-forge mamba -y
 mamba create -n averist -c conda-forge sage=10.7 python=3.11 z3-solver
 ```
