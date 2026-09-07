@@ -22,8 +22,7 @@ Esta herramienta necesita de algunos programas que deben estar instalados en el 
 
 ```bash
 cd ~
-git clone
-https://github.com/candelaperez11/Herramienta-Web-AVERIST.git
+git clone https://github.com/candelaperez11/Herramienta-Web-AVERIST.git
 cd Herramienta-Web-AVERIST
 ```
 Si aparece un error de "Command not found" ejecutamos  `sudo apt-get update && sudo apt-get install -y git`, ya que pueden no estar instalados en nuestro equipo.
